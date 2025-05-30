@@ -1,0 +1,219 @@
+/* RESETS AND BASE STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-top: 80px; /* Matches navbar height */
+}
+
+/* VARIABLES */
+$primary-color: #2c3e50;
+$secondary-color: #f39c12;
+$white: #fff;
+$dropdown-bg: $white;
+$dropdown-text: $primary-color;
+$transition-time: 0.3s;
+$navbar-height: 80px;
+$dropdown-width: 200px;
+
+/* MIXINS */
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin hover-effect {
+  transition: all $transition-time ease;
+  
+  &:hover {
+    color: $secondary-color;
+    transform: translateY(-2px);
+  }
+}
+
+/* NAVBAR STYLES */
+.navbar {
+  background-color: $primary-color;
+  height: $navbar-height;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 50px;
+  }
+
+  &-logo {
+    color: $white;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    @include flex-center;
+    @include hover-effect;
+  }
+
+  &-menu {
+    @include flex-center;
+    list-style: none;
+    height: 100%;
+    
+  }
+
+  &-item {
+    height: 100%;
+    position: relative;
+    align-items: start;
+
+    &.feature-item:hover .feature-dropdown {
+      display: block;
+    }
+  }
+
+  &-link {
+    color: $white;
+    @include flex-center;
+    text-decoration: none;
+    padding: 0 1.5rem;
+    height: 100%;
+    cursor: pointer;
+    @include hover-effect;
+
+    &.feature-link {
+      .dropdown-arrow {
+        margin-left: 5px;
+        font-size: 0.8rem;
+        transition: transform $transition-time ease;
+      }
+
+      &:hover .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+/* DROPDOWN STYLES */
+.feature-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: $dropdown-bg;
+  width: $dropdown-width;
+  list-style: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 5px 5px;
+  overflow: hidden;
+  z-index: 1001;
+  animation: fadeIn $transition-time ease-out;
+
+  .dropdown-item {
+    width: 100%;
+
+    &:last-child .dropdown-link {
+      border-bottom: none;
+    }
+
+    .dropdown-link {
+      color: $dropdown-text;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      transition: all $transition-time ease;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        background-color: $secondary-color;
+        color: $white;
+        padding-left: 25px;
+      }
+    }
+  }
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 960px) {
+  .navbar {
+    &-container {
+      padding: 0 20px;
+    }
+
+    &-menu {
+      position: fixed;
+      top: $navbar-height;
+      left: -100%;
+      width: 100%;
+      height: calc(100vh - #{$navbar-height});
+      background-color: darken($primary-color, 5%);
+      flex-direction: column;
+      transition: left 0.3s ease;
+      
+      &.active {
+        left: 0;
+      }
+    }
+
+    &-item {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &.feature-item .feature-dropdown {
+        position: static;
+        width: 100%;
+        display: none;
+        background-color: darken($primary-color, 8%);
+        
+        &.active {
+          display: block;
+        }
+      }
+    }
+
+    &-link {
+      padding: 1.5rem;
+      justify-content: flex-start;
+
+      &.feature-link .dropdown-arrow {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .feature-dropdown .dropdown-link {
+    color: $white;
+    padding-left: 2.5rem;
+
+    &:hover {
+      background-color: darken($secondary-color, 5%);
+    }
+  }
+}
