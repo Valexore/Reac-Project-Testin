@@ -5,6 +5,7 @@ import App from './App.jsx'
 import Root from "./routes/root";
 import BlogPage from './pages/BlogPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
+import { HashRouter as Router } from 'react-router-dom';
 
 import {
   createBrowserRouter,
@@ -12,6 +13,7 @@ import {
 } from "react-router-dom";
 
 const router = createBrowserRouter([
+
   {
     path: "/",
     element: <App />,
@@ -30,7 +32,8 @@ const router = createBrowserRouter([
 ]);
 
 
-
 createRoot(document.getElementById('root')).render(
+  <Router basename={import.meta.env.BASE_URL}>
     <RouterProvider router={router} />
-)
+  </Router>
+);
