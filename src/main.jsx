@@ -33,7 +33,10 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <Router basename={import.meta.env.BASE_URL}>
-    <RouterProvider router={router} />
-  </Router>
+ <RouterProvider router={router} />
+
+      //==for hosting but still not working==
+  //<Router basename={import.meta.env.BASE_URL}>
+    //<RouterProvider router={router} />
+  //</Router>
 );
